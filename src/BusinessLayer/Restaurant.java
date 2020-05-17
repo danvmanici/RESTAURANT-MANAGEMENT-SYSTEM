@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import DataLayer.FileWriter;
 import DataLayer.RestaurantSerializator;
@@ -103,6 +104,18 @@ public class Restaurant implements Serializable,RestaurantProcessing {
 			price += ingredients.get(i).computePrice();
 		}
 		return price;
+	}
+	
+	public boolean isWellFormed() {
+		for (Entry<Order, ArrayList<MenuItem>> e : orderInfo.entrySet()) {
+			ArrayList<MenuItem> l = e.getValue();
+			for (int i = 0; i < l.size(); i++) {
+				MenuItem w = l.get(i);
+				if (!orderInfo.containsKey(w))
+					return false;
+			}
+		}
+		return true;
 	}
 	
 	@Override
